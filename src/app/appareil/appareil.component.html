@@ -1,0 +1,10 @@
+<!--ngClass : directive class dynamique-->
+<li [ngClass]="{'list-group-item': true, 
+                'list-group-item-success': appareilStatus ==='allumé', 
+                'list-group-item-danger': appareilStatus === 'éteint'}">
+    <!--ngIf : directive structurelle If-->
+    <div style="width:20px;height:20px;background-color:red;"*ngIf="appareilStatus === 'éteint'" ></div>
+    <!--ngStyle : directive par attribut chgt style-->
+    <h4 [ngStyle]="{color: getColor()}">Appareil : {{ appareilName }} -- Statut : {{ getStatus() }}</h4>
+    <input type="text" class="form-control" [(ngModel)]="appareilName">
+</li>
