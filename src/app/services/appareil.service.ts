@@ -1,48 +1,65 @@
+import { Subject } from "rxjs/Subject";
+
 export class AppareilService {
-    appareils = [
-        {
-          id: 1,
-          name:  'Machine à laver',
-          status: 'éteint'
-        },
-        {
-          id: 2,
-          name:  'Télévision',
-          status: 'allumé'
-        },
-        {
-          id: 3,
-          name:  'Ordinateur',
-          status: 'éteint'
+    
+  //Emet appareil list to acces ext
+  appareilSubject = new Subject<any[]>();
+  
+  // appareils = [
+  private appareils = [
+      {
+        id: 1,
+        name:  'Machine à laver',
+        status: 'éteint'
+      },
+      {
+        id: 2,
+        name:  'Télévision',
+        status: 'allumé'
+      },
+      {
+        id: 3,
+        name:  'Ordinateur',
+        status: 'éteint'
+      }
+    ];
+
+    emitAppareilSubject() {
+      this.appareilSubject.next(this.appareils.slice());
+    }
+
+    getAppareilById(id: number) {
+      const appareil = this.appareils.find(
+        (appareilObject) => {
+          return appareilObject.id === id;
         }
-      ];
+      );
+      return appareil;
+    }
 
-      getAppareilById(id: number) {
-        const appareil = this.appareils.find(
-          (appareilObject) => {
-            return appareilObject.id === id;
-          }
-        );
-        return appareil;
-      }
+    // this.emitAppareilSubject(); => see changement
 
-      switchOnAll() {
-          for (let appareil of this.appareils) {
-            appareil.status = 'allumé';              
-          }
+    switchOnAll() {
+      for (let appareil of this.appareils) {
+        appareil.status = 'allumé';              
       }
-
-      switchOffAll() {
-          for (let appareil of this.appareils) {
-            appareil.status = 'éteint';              
-          }
+      this.emitAppareilSubject();
+    }
+    
+    switchOffAll() {
+      for (let appareil of this.appareils) {
+        appareil.status = 'éteint';              
       }
-
-      switchOnOne(i: number) {
-        this.appareils[i].status = 'allumé';
-      }
-
-      switchOffOne(i: number) {
-        this.appareils[i].status = 'éteint';
-      }
+      this.emitAppareilSubject();
+    }
+    
+    switchOnOne(i: number) {
+      this.appareils[i].status = 'allumé';
+      this.emitAppareilSubject();
+    }
+    
+    switchOffOne(i: number) {
+      this.appareils[i].status = 'éteint';
+      this.emitAppareilSubject();
+    }
 }
